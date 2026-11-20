@@ -10,6 +10,15 @@ STRIDE_BASE_URL = os.getenv(
     "STRIDE_BASE_URL", "https://open-bus-stride-api.hasadna.org.il"
 ).rstrip("/")
 
+# Local development without bus data: serve generated in-memory responses
+# instead of calling Stride. Never enable this in a deployed environment.
+MOCK_MODE = os.getenv("MOCK_MODE", "").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+
 # HTTP client timeouts (seconds).
 HTTP_TIMEOUT = float(os.getenv("HTTP_TIMEOUT", "4.0"))
 HTTP_CONNECT_TIMEOUT = float(os.getenv("HTTP_CONNECT_TIMEOUT", "2.0"))

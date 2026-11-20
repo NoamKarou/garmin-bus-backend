@@ -31,6 +31,36 @@ curl "http://127.0.0.1:8000/arrivals?lines=480&station=4170&limit=3"
 
 Interactive docs: <http://127.0.0.1:8000/docs>
 
+### Mock mode (offline development)
+
+Set `MOCK_MODE=1` to serve generated in-memory bus data instead of calling
+Stride. This needs no network access and works without real bus data:
+
+```bash
+MOCK_MODE=1 uv run uvicorn app.main:app --reload --port 8000
+```
+
+PowerShell:
+
+```powershell
+$env:MOCK_MODE = "1"; uv run uvicorn app.main:app --reload --port 8000
+```
+
+In mock mode:
+
+- every line number and stop code is accepted (`/station?station=12345` works);
+- a bus arrives at the requested station every 10 minutes, on a 10-minute clock
+  grid;
+- the first upcoming trip has a simulated SIRI vehicle position, so it returns
+  `"live": true`; later arrivals are schedule-only;
+- times are generated relative to the current time, so the countdown in the
+  watch app ticks down normally;
+- `GET /` reports `"mode": "mock"`.
+
+Everything else (validation, errors, response shape, caching) is unchanged, and
+the whole arrivals pipeline -- schedule plus live overlay -- runs against the
+fake client. Never enable `MOCK_MODE` on a deployed instance.
+
 ### Live smoke test
 
 This hits the real Stride API (not the fixtures) and prints the arrivals:
@@ -174,6 +204,7 @@ Environment variables:
 | `STRIDE_BASE_URL` | `https://open-bus-stride-api.hasadna.org.il` |
 | `HTTP_TIMEOUT` | `4.0` seconds |
 | `HTTP_CONNECT_TIMEOUT` | `2.0` seconds |
+| `MOCK_MODE` | unset (set to `1` for offline generated data) |
 
 **HTTPS is required for a physical Garmin watch.** `makeWebRequest` rejects plain
 HTTP except to `127.0.0.1` on the phone. Use an HTTPS deployment, or a tunnel

@@ -28,6 +28,9 @@ uv run uvicorn app.main:app --reload --port 8000
 curl "http://127.0.0.1:8000/arrivals?lines=480&station=4170&limit=3"
 ```
 
+To develop offline without real bus data, start it with `MOCK_MODE=1` (see
+[backend/README.md](backend/README.md#mock-mode-offline-development)).
+
 See [backend/README.md](backend/README.md) for the API, tests, Docker, and
 deployment.
 

@@ -123,40 +123,35 @@ class BusView extends Ui.View {
 
         var first = _store.arrivals[0] as Lang.Dictionary;
         var firstLive = first["live"] == true;
-        var color = firstLive ? Gfx.COLOR_GREEN : Gfx.COLOR_BLACK;
+        var color = firstLive ? Gfx.COLOR_DK_GREEN : Gfx.COLOR_DK_GRAY;
 
-        dc.setColor(color, Gfx.COLOR_BLUE);
+        dc.setColor(color, Gfx.COLOR_TRANSPARENT);
         dc.drawText(
-            w / 2, h * 26 / 100, Gfx.FONT_NUMBER_MEDIUM,
-            "hello",
-            Gfx.TEXT_JUSTIFY_CENTER
-        );
-        dc.drawText(
-            w / 2, h * 26 / 100, Gfx.FONT_NUMBER_MEDIUM,
+            w / 2, h * 32 / 100, Gfx.FONT_NUMBER_MEDIUM,
             (first["minutes"] as Lang.Number).toString(),
             Gfx.TEXT_JUSTIFY_CENTER
         );
         dc.drawText(
-            w / 2, h * 46 / 100, Gfx.FONT_SMALL,
+            w / 2, h * 50 / 100, Gfx.FONT_SMALL,
             "min",
             Gfx.TEXT_JUSTIFY_CENTER
         );
 
-        var y = h * 58 / 100;
+        var y = h * 35 / 100;
         var shown = 0;
         for (var i = 1; i < _store.arrivals.size() && shown < 2; i++) {
             var item = _store.arrivals[i] as Lang.Dictionary;
             var live = item["live"] == true;
             dc.setColor(
-                live ? Gfx.COLOR_GREEN : Gfx.COLOR_LT_GRAY,
+                live ? Gfx.COLOR_DK_GREEN : Gfx.COLOR_DK_GRAY,
                 Gfx.COLOR_TRANSPARENT
             );
             dc.drawText(
-                w / 2, y, Gfx.FONT_SMALL,
-                (item["minutes"] as Lang.Number).toString() + " min",
-                Gfx.TEXT_JUSTIFY_CENTER
+                17, y, Gfx.FONT_SMALL,
+                (item["minutes"] as Lang.Number).toString() + "min",
+                Gfx.TEXT_JUSTIFY_LEFT
             );
-            y += h * 8 / 100;
+            y += h * 13 / 100;
             shown++;
         }
 
@@ -174,11 +169,11 @@ class BusView extends Ui.View {
         h as Lang.Number,
         station as Lang.String
     ) as Void {
-        var y = h * 16 / 100;
-        var maxWidth = w * 78 / 100;
+        var y = h * 17 / 100;
+        var maxWidth = w * 85 / 100;
         var textWidth = dc.getTextWidthInPixels(station, _stationFont);
 
-        dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
+        dc.setColor(Gfx.COLOR_ORANGE, Gfx.COLOR_TRANSPARENT);
 
         if (textWidth <= maxWidth) {
             stopScrolling();

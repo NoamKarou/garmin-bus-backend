@@ -14,6 +14,7 @@ from . import config
 from .arrivals import get_arrivals, get_station
 from .cache import TTLCache
 from .errors import LineNotFound, StationNotFound, UpstreamError
+from .mock import MockStrideClient
 from .models import ArrivalsResponse, StationOut
 from .stride import StrideClient
 from .timeutil import utc_now
@@ -60,14 +61,21 @@ def _get_now(request: Request) -> Callable[[], datetime]:
 
 
 def create_app(
-    stride_client: StrideClient | None = None,
+    stride_client: StrideClient | MockStrideClient | None = None,
     cache: TTLCache | None = None,
     now_provider: Callable[[], datetime] | None = None,
 ) -> FastAPI:
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         if getattr(app.state, "stride", None) is None:
-            app.state.stride = StrideClient()
+            if config.MOCK_MODE:
+                logger.warning(
+                    "MOCK_MODE is enabled: serving generated bus data, "
+                    "not calling Stride"
+                )
+                app.state.stride = MockStrideClient()
+            else:
+                app.state.stride = StrideClient()
             app.state.owns_stride = True
         else:
             app.state.owns_stride = False
@@ -105,6 +113,7 @@ def create_app(
     async def root() -> dict[str, str]:
         return {
             "name": "garmin-bus-backend",
+            "mode": "mock" if config.MOCK_MODE else "live",
             "docs": "/docs",
             "example": "/arrivals?lines=480&station=4170&limit=3",
             "station": "/station?station=4170",
