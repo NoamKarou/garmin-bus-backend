@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <properties>
+        <property id="BackendUrl" type="string">http://127.0.0.1:8000</property>
+        <property id="StationCode" type="string">37078</property>
+        <property id="LineNumbers" type="string">149</property>
+        <property id="RefreshSeconds" type="number">30</property>
+    </properties>
+</resources>

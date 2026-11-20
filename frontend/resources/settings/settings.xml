@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <setting propertyKey="@Properties.LineNumbers" title="@Strings.SettingLines">
+        <settingConfig type="alphaNumeric" required="true"/>
+    </setting>
+    <setting propertyKey="@Properties.StationCode" title="@Strings.SettingStation">
+        <settingConfig type="alphaNumeric" required="true"/>
+    </setting>
+    <setting propertyKey="@Properties.RefreshSeconds" title="@Strings.SettingRefresh">
+        <settingConfig type="numeric" min="15" max="300"/>
+    </setting>
+</settings>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <strings>
+        <string id="AppName">Bus</string>
+        <string id="Checking">Checking...</string>
+        <string id="NoBuses">No buses soon</string>
+        <string id="NoConnection">No connection</string>
+        <string id="NoResponse">No response</string>
+        <string id="StationNotFound">Station not found</string>
+        <string id="ServiceUnavailable">Service unavailable</string>
+        <string id="NotConfigured">Set line and station</string>
+        <string id="HttpsRequired">HTTPS required</string>
+        <string id="Live">LIVE</string>
+        <string id="Schedule">SCHEDULE</string>
+        <string id="Stale">STALE</string>
+        <string id="MinShort">min</string>
+        <string id="LineLabel">Line</string>
+        <string id="SettingLines">Bus line number(s)</string>
+        <string id="SettingStation">Station code</string>
+        <string id="SettingRefresh">Refresh (seconds)</string>
+    </strings>
+</resources>

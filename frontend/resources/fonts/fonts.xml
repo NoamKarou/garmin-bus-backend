@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <fonts>
+        <font id="HebrewTiny" filename="hebrew_tiny.fnt" antialias="true"/>
+        <font id="HebrewSmall" filename="hebrew_small.fnt" antialias="true"/>
+        <font id="HebrewMedium" filename="hebrew_medium.fnt" antialias="true"/>
+    </fonts>
+</resources>

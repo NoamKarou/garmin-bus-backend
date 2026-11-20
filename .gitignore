@@ -1,0 +1,17 @@
+# Python / uv
+backend/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# IDE
+.idea/
+
+# Garmin Connect IQ build artifacts and signing keys
+frontend/bin/
+*.prg
+developer_key.der
+*.pem
+
+# Local environment
+.env
