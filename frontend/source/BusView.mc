@@ -13,6 +13,8 @@ class BusView extends Ui.View {
     // Bundle fonts with Hebrew glyphs: the built-in FONT_* bitmaps have none.
     private var _stationFont as Ui.FontResource;
     private var _stationTinyFont as Ui.FontResource;
+    // Screen-sized background artwork (one copy per resource qualifier).
+    private var _background as Ui.BitmapResource;
     // Marquee state for station names that are wider than the screen chord.
     private var _scrollTimer as Timer.Timer?;
     private var _scrollPos as Lang.Number;
@@ -26,6 +28,7 @@ class BusView extends Ui.View {
         _service = new BusService(_config, method(:onServiceResult));
         _stationFont = Ui.loadResource(Rez.Fonts.HebrewSmall) as Ui.FontResource;
         _stationTinyFont = Ui.loadResource(Rez.Fonts.HebrewTiny) as Ui.FontResource;
+        _background = Ui.loadResource(Rez.Drawables.Background) as Ui.BitmapResource;
         _scrollPos = 0;
         _scrollName = null;
     }
@@ -96,6 +99,7 @@ class BusView extends Ui.View {
 
         dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_LT_GRAY);
         dc.clear();
+        dc.drawBitmap(0, 0, _background);
 
         var station = _config.stationCode;
         if (_store.stationName != null) {
@@ -170,7 +174,7 @@ class BusView extends Ui.View {
         h as Lang.Number,
         station as Lang.String
     ) as Void {
-        var y = h * 15 / 100;
+        var y = h * 16 / 100;
         var maxWidth = w * 78 / 100;
         var textWidth = dc.getTextWidthInPixels(station, _stationFont);
 
@@ -263,22 +267,9 @@ class BusView extends Ui.View {
     }
 
     private function drawFooter(dc as Gfx.Dc, w as Lang.Number, h as Lang.Number) as Void {
-        var status = "SCHEDULE";
         var color = Gfx.COLOR_LT_GRAY;
 
-        if (_store.arrivals.size() > 0) {
-            var first = _store.arrivals[0] as Lang.Dictionary;
-            var live = first["live"] == true;
-            status = live ? "LIVE" : "SCHEDULE";
-            color = live ? Gfx.COLOR_GREEN : Gfx.COLOR_LT_GRAY;
-        }
-        if (_store.stale) {
-            status = "STALE";
-            color = Gfx.COLOR_ORANGE;
-        }
-
         dc.setColor(color, Gfx.COLOR_TRANSPARENT);
-        dc.drawText(w / 2, h * 84 / 100, Gfx.FONT_TINY, status, Gfx.TEXT_JUSTIFY_CENTER);
 
         if (_store.lastUpdatedSec > 0) {
             var age = Time.now().value() - _store.lastUpdatedSec;

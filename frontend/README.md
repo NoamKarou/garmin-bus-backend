@@ -99,6 +99,25 @@ it writes the `resources-<product>/fonts/` set. Keep the source font's
 license in mind for store distribution: Heebo is SIL OFL and safe to embed;
 most Windows system fonts (Arial, David, …) are not redistributable.
 
+## Background artwork
+
+`resources/drawables/background.png` is drawn full-screen behind all the text
+(`BusView.onUpdate`). Connect IQ cannot scale bitmaps at draw time on every
+supported watch, so the artwork ships once per screen size in resource
+qualifier folders, which override the base drawable id:
+
+- `resources-round-390x390/` — venu3s, vivoactive5
+- `resources-round-454x454/` — venu3
+- `resources-round-260x260/` — vivoactive4
+- `resources-round-218x218/` — vivoactive4s
+
+After changing the artwork, regenerate the resized copies:
+
+```bash
+cd frontend
+python tools/gen_backgrounds.py
+```
+
 ## Build
 
 ```bash
